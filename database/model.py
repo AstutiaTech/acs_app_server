@@ -9,7 +9,7 @@ from models.logs import Log, create_log, update_log, get_all_logs, get_all_logs_
 from models.owners import Owner, create_owner, update_owner, get_all_owners, get_all_owners_paginated, get_all_owners_by_status_paginated, search_owners, get_owner_by_id, count_owners
 from models.ports import Port, create_port, update_port, delete_port, get_all_ports, get_all_ports_by_control_box_id, get_port_by_id, count_ports, count_ports_by_control_box_id
 from models.sensors import Sensor, create_sensor, update_sensor, delete_sensor, get_all_sensors, get_all_sensors_by_control_box_id, get_sensor_by_id, count_sensors, count_sensors_by_control_box_id
-from models.users import User, create_user, update_user, get_all_users, get_all_users_paginated, get_users_by_owner_id, get_users_by_owner_id_and_status, get_user_by_id, get_user_by_email, get_user_by_username, search_user, user_login, count_users, count_user_by_email, count_user_by_username
+from models.users import User, create_user, update_user, get_all_users, get_all_users_paginated, get_users_by_owner_id, get_users_by_owner_id_and_status, get_user_by_id, get_user_by_email, get_user_by_username, search_user, user_login, user_biometric_login, count_users, count_user_by_email, count_user_by_username
 import string
 import random
 from sqlalchemy.orm import Session

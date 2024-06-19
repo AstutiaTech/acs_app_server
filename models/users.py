@@ -19,6 +19,7 @@ class User(Base):
     email = Column(String, nullable=True)
     password = Column(String, nullable=True)
     pin = Column(String, nullable=True)
+    biometric_id = Column(Text, nullable=True)
     role = Column(SmallInteger, default=0)
     status = Column(SmallInteger, default=0)
     created_at = Column(TIMESTAMP(timezone=True), nullable=True)
@@ -62,6 +63,9 @@ def get_user_by_username(db: Session, username: str=None):
 
 def user_login(db: Session, field: str=None):
     return db.query(User).filter(and_(or_(User.username == field, User.email == field), User.deleted_at == None)).first()
+
+def user_biometric_login(db: Session, biometric_id: str=None):
+    return db.query(User).filter(and_(User.biometric_id == biometric_id, User.deleted_at == None)).first()
 
 def search_user(db: Session, query: str=''):
     if query is None:

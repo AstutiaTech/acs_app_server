@@ -1,5 +1,5 @@
 from schemas.asset_base import CreateAssetModel, UpdateAssetModel, CreateAssetFileBase64Model, UpdateAssetFileBase64Model, AssetModel, AssetFileModel, AssetResponseModel, AssetFileResponseModel, AssetWithFileModel, AssetWithFilesResponseModel
-from schemas.auth import LoginModel, RegisterModel, AuthResponseModel, UpdateAdminModel, UpdateAdminPasswordModel
+from schemas.auth import LoginModel, LoginBiomentricModel, RegisterModel, AuthResponseModel, UpdateUserModel, UpdateUserPasswordModel, UpdateBiometricModel
 from schemas.bat_base import CreateBatteryModel, UpdateBatteryModel, BatteryModel, BatteryResponseModel
 from schemas.box_base import CreateControlBoxModel, UpdateControlBoxModel, ControlBoxModel, ControlBoxResponseModel
 from schemas.inv_base import CreateInverterModel, UpdateInverterModel, InverterModel, InverterResponseModel

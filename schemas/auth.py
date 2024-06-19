@@ -7,6 +7,12 @@ class LoginModel(BaseModel):
     
     class Config:
         orm_mode = True
+        
+class LoginBiomentricModel(BaseModel):
+    signature: str
+    
+    class Config:
+        orm_mode = True
 
 class RegisterModel(BaseModel):
     role: int
@@ -39,7 +45,7 @@ class AuthResponseModel(BaseModel):
     class Config:
         orm_mode = True
 
-class UpdateAdminModel(BaseModel):
+class UpdateUserModel(BaseModel):
     first_name: Optional[str] = None
     other_name: Optional[str] = None
     last_name: Optional[str] = None
@@ -48,10 +54,16 @@ class UpdateAdminModel(BaseModel):
     class Config:
         orm_mode = True
 
-class UpdateAdminPasswordModel(BaseModel):
+class UpdateUserPasswordModel(BaseModel):
     password: str
     password_confirmation: str
     old_password: str
+    
+    class Config:
+        orm_mode = True
+
+class UpdateBiometricModel(BaseModel):
+    signature: str
     
     class Config:
         orm_mode = True

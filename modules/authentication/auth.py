@@ -1,5 +1,5 @@
 from typing import Dict
-from database.model import user_login, update_user, get_user_by_id
+from database.model import user_login, user_biometric_login, update_user, get_user_by_id
 from modules.utils.tools import process_schema_dictionary
 from modules.utils.auth import AuthHandler
 from sqlalchemy.orm import Session
@@ -26,7 +26,7 @@ def login_user(db: Session, field: str=None, password: str=None):
             if user.status == 0:
                 return {
                     'status': False,
-                    'message': 'Admin has been deactivated',
+                    'message': 'User has been deactivated',
                     'data': None,
                 }
             else:
@@ -58,6 +58,51 @@ def login_user(db: Session, field: str=None, password: str=None):
                         'message': 'Login Success',
                         'data': data,
                     }
+                
+def login_biometric_user(db: Session, signature: str = None):
+    user = user_biometric_login(db=db, biometric_id=signature)
+    if user is None:
+        return {
+            'status': False,
+            'message': 'Signature is incorrect',
+            'data': None
+        }
+    else:
+        if user.status == 0:
+            return {
+                'status': False,
+                'message': 'User has been deactivated',
+                'data': None,
+            }
+        else:
+            if user.deleted_at is not None:
+                return {
+                    'status': False,
+                    'message': 'User has been deleted',
+                    'data': None,
+                }
+            else:
+                payload = {
+                    'id': user.id,
+                    'owner_id': user.owner_id,
+                    'username': user.username,
+                    'email': user.email,
+                }
+                token = auth.encode_token(user=payload)
+                data = {
+                    'access_token': token,
+                    'id': user.id,
+                    'owner_id': user.owner_id,
+                    'username': user.username,
+                    'email': user.email,
+                    'role': user.role,
+                    'created_at': user.created_at,
+                }
+                return {
+                    'status': True,
+                    'message': 'Login Success',
+                    'data': data,
+                }
 
 def get_loggedin_user(db: Session, user_id: str=None):
     user = get_user_by_id(db=db, id=user_id)
@@ -119,3 +164,13 @@ def update_user_password(db: Session, user_id: int=0, password: str=None, passwo
                     'status': False,
                     'message': 'Old Password Incorrect'
                 }
+
+def update_user_biometric_id(db: Session, user_id: int=0, signature: str=None):
+    da = {
+        'biometric_id': signature
+    }
+    update_user(db=db, id=user_id, values=da)
+    return {
+        'status': True,
+        'message': 'Success'
+    }
