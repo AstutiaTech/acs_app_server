@@ -25,24 +25,32 @@ class Sensor(Base):
     deleted_at = Column(TIMESTAMP(timezone=True), nullable=True)
 
 
-def create_port(db: Session, control_box_id: int=0, reference: str=None, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None, status: int=0):
+def create_sensor(db: Session, control_box_id: int=0, reference: str=None, sensor_type: int=0, voltage_input: str=None, voltage_output: str=None, status: int=0):
     sensor = Sensor(control_box_id=control_box_id, reference=reference, sensor_type=sensor_type, voltage_input=voltage_input, voltage_output=voltage_output, status=status, created_at=get_laravel_datetime(), updated_at=get_laravel_datetime())
     db.add(sensor)
     db.commit()
     db.refresh(sensor)
     return sensor
 
-def update_port(db: Session, id: int=0, values: Dict={}):
+def update_sensor(db: Session, id: int=0, values: Dict={}):
     values['updated_at'] = get_laravel_datetime()
     db.query(Sensor).filter_by(id=id).update(values)
     db.commit()
     return True
 
+def delete_sensor(db: Session, id: int=0):
+    values = {
+        'deleted_at': get_laravel_datetime(),
+    }
+    db.query(Sensor).filter_by(id=id).update(values)
+    db.commit()
+    return True
+
 def get_all_sensors(db: Session):
-    return db.query(Sensor).filter(Sensor.deleted_at == None).all()
+    return db.query(Sensor).filter(Sensor.deleted_at == None)
 
 def get_all_sensors_by_control_box_id(db: Session, control_box_id: int=0):
-    return db.query(Sensor).filter(and_(Sensor.control_box_id == control_box_id, Sensor.deleted_at == None)).all()
+    return db.query(Sensor).filter(and_(Sensor.control_box_id == control_box_id, Sensor.deleted_at == None))
 
 def get_sensor_by_id(db: Session, id: int=0):
     return db.query(Sensor).filter_by(id=id).first()
