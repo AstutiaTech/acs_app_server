@@ -15,7 +15,7 @@ from routes.v1.base import inverter
 from routes.v1.base import port
 from routes.v1.base import sensor
 
-app = FastAPI()
+app = FastAPI(title="ACS Users")
 
 app.include_router(auth.router)
 app.include_router(owner.router)

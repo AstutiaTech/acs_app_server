@@ -12,5 +12,5 @@ router = APIRouter(
 )
 
 @router.get("/get_single/{owner_id}", response_model=OwnerResponseModel, responses={404: {"model": ErrorResponse}, 401: {"model": ErrorResponse}, 403: {"model": ErrorResponse}})
-async def get_single(request: Request, user=Depends(auth.auth_user_wrapper), db: Session = Depends(get_session), owner_id: int = 0):
+async def get_single_owner(request: Request, user=Depends(auth.auth_user_wrapper), db: Session = Depends(get_session), owner_id: int = 0):
     return retrieve_single_owner(db=db, owner_id=owner_id)
